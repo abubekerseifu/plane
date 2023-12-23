@@ -58,6 +58,7 @@ export type TIssueParams =
   | "sub_group_by"
   | "order_by"
   | "type"
+  | "cycle"
   | "sub_issue"
   | "show_empty_groups"
   | "start_target_date";
@@ -73,6 +74,7 @@ export interface IIssueFilterOptions {
   project?: string[] | null;
   start_date?: string[] | null;
   state?: string[] | null;
+  cycle?: string[] | null;
   state_group?: string[] | null;
   subscriber?: string[] | null;
   target_date?: string[] | null;

@@ -32,12 +32,6 @@ export const CommandPaletteWorkspaceSettingsActions: React.FC<Props> = (props) =
           Members
         </div>
       </Command.Item>
-      <Command.Item onSelect={() => redirect(`/${workspaceSlug}/settings/billing`)} className="focus:outline-none">
-        <div className="flex items-center gap-2 text-custom-text-200">
-          <SettingIcon className="h-4 w-4 text-custom-text-200" />
-          Billing and Plans
-        </div>
-      </Command.Item>
       <Command.Item onSelect={() => redirect(`/${workspaceSlug}/settings/integrations`)} className="focus:outline-none">
         <div className="flex items-center gap-2 text-custom-text-200">
           <SettingIcon className="h-4 w-4 text-custom-text-200" />

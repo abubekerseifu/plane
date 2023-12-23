@@ -15,9 +15,10 @@ import { X } from "lucide-react";
 // helpers
 import { replaceUnderscoreIfSnakeCase } from "helpers/string.helper";
 // types
-import { IIssueFilterOptions, IIssueLabel, IProject, IState, IUserLite } from "types";
+import {ICycle, IIssueFilterOptions, IIssueLabel, IProject, IState, IUserLite } from "types";
 // constants
 import { EUserWorkspaceRoles } from "constants/workspace";
+import { AppliedCycleFilters } from "./cycle";
 
 type Props = {
   appliedFilters: IIssueFilterOptions;
@@ -27,13 +28,14 @@ type Props = {
   members?: IUserLite[] | undefined;
   projects?: IProject[] | undefined;
   states?: IState[] | undefined;
+  cycles?: ICycle[] | undefined;
 };
 
 const membersFilters = ["assignees", "mentions", "created_by", "subscriber"];
 const dateFilters = ["start_date", "target_date"];
 
 export const AppliedFiltersList: React.FC<Props> = observer((props) => {
-  const { appliedFilters, handleClearAllFilters, handleRemoveFilter, labels, members, projects, states } = props;
+  const { appliedFilters, handleClearAllFilters, handleRemoveFilter, labels, members, projects, states, cycles } = props;
 
   const {
     user: { currentProjectRole },
@@ -104,6 +106,13 @@ export const AppliedFiltersList: React.FC<Props> = observer((props) => {
                   editable={isEditingAllowed}
                   handleRemove={(val) => handleRemoveFilter("project", val)}
                   projects={projects}
+                  values={value}
+                />
+              )}
+               {filterKey === "cycle" && (
+                <AppliedCycleFilters
+                  handleRemove={(val) => handleRemoveFilter("cycle", val)}
+                  cycles={cycles}
                   values={value}
                 />
               )}

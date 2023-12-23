@@ -131,6 +131,7 @@ export const ISSUE_LAYOUTS: {
 export const ISSUE_LIST_FILTERS = [
   { key: "mentions", title: "Mentions" },
   { key: "priority", title: "Priority" },
+  { key: "cycle", title: "Cycle" },
   { key: "state", title: "State" },
   { key: "assignees", title: "Assignees" },
   { key: "created_by", title: "Created By" },
@@ -142,6 +143,7 @@ export const ISSUE_LIST_FILTERS = [
 export const ISSUE_KANBAN_FILTERS = [
   { key: "priority", title: "Priority" },
   { key: "state", title: "State" },
+  { key: "cycle", title: "Cycle" },
   { key: "assignees", title: "Assignees" },
   { key: "created_by", title: "Created By" },
   { key: "labels", title: "Labels" },
@@ -307,7 +309,7 @@ export const ISSUE_DISPLAY_FILTERS_BY_LAYOUT: {
   },
   issues: {
     list: {
-      filters: ["priority", "state", "assignees", "mentions", "created_by", "labels", "start_date", "target_date"],
+      filters: ["priority", "state", "assignees", "mentions", "created_by", "labels", "start_date", "target_date", "cycle"],
       display_properties: true,
       display_filters: {
         group_by: ["state", "priority", "labels", "assignees", "created_by", null],
@@ -320,7 +322,7 @@ export const ISSUE_DISPLAY_FILTERS_BY_LAYOUT: {
       },
     },
     kanban: {
-      filters: ["priority", "state", "assignees", "mentions", "created_by", "labels", "start_date", "target_date"],
+      filters: ["priority", "state", "assignees", "mentions", "created_by", "labels", "start_date", "target_date", "cycle"],
       display_properties: true,
       display_filters: {
         group_by: ["state", "priority", "labels", "assignees", "created_by"],

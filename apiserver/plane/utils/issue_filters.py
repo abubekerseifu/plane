@@ -262,6 +262,11 @@ def filter_project(params, filter, method):
 def filter_cycle(params, filter, method):
     if method == "GET":
         cycles = [item for item in params.get("cycle").split(",") if item != 'null']
+        if "current_cycle" in cycles:
+            filter["start_date__lte"] = timezone.now()
+            filter["target_date__gte"] = timezone.now()
+            cycles.remove("current_cycle")
+
         cycles = filter_valid_uuids(cycles)
         if len(cycles) and "" not in cycles:
             filter["issue_cycle__cycle_id__in"] = cycles

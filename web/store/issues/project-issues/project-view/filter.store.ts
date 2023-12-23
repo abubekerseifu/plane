@@ -114,6 +114,7 @@ export class ViewIssuesFilterStore extends IssueFilterBaseStore implements IView
       state: userFilters?.filters?.state || undefined,
       assignees: userFilters?.filters?.assignees || undefined,
       mentions: userFilters?.filters?.mentions || undefined,
+      cycle: userFilters?.filters?.cycle || undefined,
       created_by: userFilters?.filters?.created_by || undefined,
       labels: userFilters?.filters?.labels || undefined,
       start_date: userFilters?.filters?.start_date || undefined,

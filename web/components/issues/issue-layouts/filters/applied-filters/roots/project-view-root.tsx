@@ -23,6 +23,7 @@ export const ProjectViewAppliedFiltersRoot: React.FC = observer(() => {
   const {
     projectLabel: { projectLabels },
     projectState: projectStateStore,
+    cycle: { projectCycles },
     projectMember: { projectMembers },
     projectViews: projectViewsStore,
     viewIssuesFilter: { issueFilters, updateFilters },
@@ -100,6 +101,7 @@ export const ProjectViewAppliedFiltersRoot: React.FC = observer(() => {
         labels={projectLabels ?? []}
         members={projectMembers?.map((m) => m.member)}
         states={projectStateStore.states?.[projectId?.toString() ?? ""]}
+        cycles={projectCycles ?? []}
       />
 
       {appliedFilters &&

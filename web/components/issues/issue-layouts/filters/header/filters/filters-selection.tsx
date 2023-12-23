@@ -15,9 +15,11 @@ import {
   FilterTargetDate,
 } from "components/issues";
 // types
-import { IIssueFilterOptions, IIssueLabel, IProject, IState, IUserLite } from "types";
+import { ICycle, IIssueFilterOptions, IIssueLabel, IProject, IState, IUserLite } from "types";
 // constants
 import { ILayoutDisplayFiltersOptions } from "constants/issue";
+import { FilterCycles } from "./cycle";
+import { useMobxStore } from "lib/mobx/store-provider";
 
 type Props = {
   filters: IIssueFilterOptions;
@@ -35,7 +37,9 @@ export const FilterSelection: React.FC<Props> = observer((props) => {
   const [filtersSearchQuery, setFiltersSearchQuery] = useState("");
 
   const isFilterEnabled = (filter: keyof IIssueFilterOptions) => layoutDisplayFiltersOptions?.filters.includes(filter);
-
+  const {
+    cycle: { projectCycles },
+  } = useMobxStore();
   return (
     <div className="flex h-full w-full flex-col overflow-hidden">
       <div className="bg-custom-background-100 p-2.5 pb-0">
@@ -169,6 +173,17 @@ export const FilterSelection: React.FC<Props> = observer((props) => {
               appliedFilters={filters.target_date ?? null}
               handleUpdate={(val) => handleFiltersUpdate("target_date", val)}
               searchQuery={filtersSearchQuery}
+            />
+          </div>
+        )}
+        {/* cycle */}
+        {isFilterEnabled("cycle") && (
+          <div className="py-2">
+            <FilterCycles
+              appliedFilters={filters.cycle ?? null}
+              handleUpdate={(val) => handleFiltersUpdate("cycle", val)}
+              searchQuery={filtersSearchQuery}
+              cycles={projectCycles ?? undefined}
             />
           </div>
         )}

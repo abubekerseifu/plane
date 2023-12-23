@@ -31,7 +31,6 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="apple-touch-icon" sizes="180x180" href={`${prefix}favicon/apple-touch-icon.png`} />
         <link rel="icon" type="image/png" sizes="32x32" href={`${prefix}favicon/favicon-32x32.png`} />
         <link rel="icon" type="image/png" sizes="16x16" href={`${prefix}favicon/favicon-16x16.png`} />
-        <link rel="manifest" href={`${prefix}site.webmanifest.json`} />
         <link rel="shortcut icon" href={`${prefix}favicon/favicon.ico`} />
       </Head>
       <ToastContextProvider>

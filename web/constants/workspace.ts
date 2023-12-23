@@ -130,11 +130,6 @@ export const WORKSPACE_SETTINGS_LINKS: {
     access: EUserWorkspaceRoles.GUEST,
   },
   {
-    label: "Billing and plans",
-    href: `/settings/billing`,
-    access: EUserWorkspaceRoles.ADMIN,
-  },
-  {
     label: "Integrations",
     href: `/settings/integrations`,
     access: EUserWorkspaceRoles.ADMIN,

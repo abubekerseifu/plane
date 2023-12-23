@@ -2,7 +2,7 @@ import React, { ReactElement } from "react";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 // swr
-import { Boxes, Check, Share2, Star, User2, X } from "lucide-react";
+import { Boxes, Check, User2, X } from "lucide-react";
 // services
 import { WorkspaceService } from "services/workspace.service";
 // hooks
@@ -112,20 +112,6 @@ const WorkspaceInvitationPage: NextPageWithLayout = () => {
               }}
             />
           )}
-          <EmptySpaceItem
-            Icon={Star}
-            title="Star us on GitHub"
-            action={() => {
-              router.push("https://github.com/makeplane");
-            }}
-          />
-          <EmptySpaceItem
-            Icon={Share2}
-            title="Join our community of active creators"
-            action={() => {
-              router.push("https://discord.com/invite/8SR2N9PAcJ");
-            }}
-          />
         </EmptySpace>
       ) : (
         <div className="flex h-full w-full items-center justify-center">
