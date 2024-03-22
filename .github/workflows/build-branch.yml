@@ -7,8 +7,6 @@ on:
       - master
       - preview
       - develop
-  release:
-    types: [released, prereleased]
 
 env:
   TARGET_BRANCH: ${{ github.ref_name || github.event.release.target_commitish }}
@@ -32,17 +30,11 @@ jobs:
       - id: set_env_variables
         name: Set Environment Variables
         run: |
-          if [ "${{ env.TARGET_BRANCH }}" == "master" ] || [ "${{ github.event_name }}" == "release" ]; then
-            echo "BUILDX_DRIVER=cloud" >> $GITHUB_OUTPUT
-            echo "BUILDX_VERSION=lab:latest" >> $GITHUB_OUTPUT
-            echo "BUILDX_PLATFORMS=linux/amd64,linux/arm64" >> $GITHUB_OUTPUT
-            echo "BUILDX_ENDPOINT=makeplane/plane-dev" >> $GITHUB_OUTPUT
-          else
-            echo "BUILDX_DRIVER=docker-container" >> $GITHUB_OUTPUT
-            echo "BUILDX_VERSION=latest" >> $GITHUB_OUTPUT
-            echo "BUILDX_PLATFORMS=linux/amd64" >> $GITHUB_OUTPUT
-            echo "BUILDX_ENDPOINT=" >> $GITHUB_OUTPUT
-          fi
+
+          echo "BUILDX_DRIVER=cloud" >> $GITHUB_OUTPUT
+          echo "BUILDX_VERSION=lab:latest" >> $GITHUB_OUTPUT
+          echo "BUILDX_PLATFORMS=linux/amd64,linux/arm64" >> $GITHUB_OUTPUT
+          echo "BUILDX_ENDPOINT=makeplane/plane-dev" >> $GITHUB_OUTPUT
           echo "TARGET_BRANCH=${{ env.TARGET_BRANCH }}" >> $GITHUB_OUTPUT
 
       - id: checkout_files
@@ -74,7 +66,6 @@ jobs:
               - nginx/**
 
   branch_build_push_frontend:
-    if: ${{ needs.branch_build_setup.outputs.build_frontend == 'true' || github.event_name == 'workflow_dispatch' || github.event_name == 'release' || needs.branch_build_setup.outputs.gh_branch_name == 'master' }}
     runs-on: ubuntu-20.04
     needs: [branch_build_setup]
     env:
@@ -87,13 +78,8 @@ jobs:
     steps:
       - name: Set Frontend Docker Tag
         run: |
-          if [ "${{ github.event_name }}" == "release" ]; then
-            TAG=${{ secrets.DOCKERHUB_USERNAME }}/plane-frontend:stable,${{ secrets.DOCKERHUB_USERNAME }}/plane-frontend:${{ github.event.release.tag_name }}
-          elif [ "${{ env.TARGET_BRANCH }}" == "master" ]; then
-            TAG=${{ secrets.DOCKERHUB_USERNAME }}/plane-frontend:latest
-          else
-            TAG=${{ env.FRONTEND_TAG }}
-          fi
+
+          TAG=${{ secrets.DOCKERHUB_USERNAME }}/plane-frontend:latest
           echo "FRONTEND_TAG=${TAG}" >> $GITHUB_ENV
 
       - name: Login to Docker Hub
@@ -126,7 +112,6 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
 
   branch_build_push_space:
-    if: ${{ needs.branch_build_setup.outputs.build_space == 'true' || github.event_name == 'workflow_dispatch' || github.event_name == 'release' || needs.branch_build_setup.outputs.gh_branch_name == 'master' }}
     runs-on: ubuntu-20.04
     needs: [branch_build_setup]
     env:
@@ -139,13 +124,7 @@ jobs:
     steps:
       - name: Set Space Docker Tag
         run: |
-          if [ "${{ github.event_name }}" == "release" ]; then
-            TAG=${{ secrets.DOCKERHUB_USERNAME }}/plane-space:stable,${{ secrets.DOCKERHUB_USERNAME }}/plane-space:${{ github.event.release.tag_name }}
-          elif [ "${{ env.TARGET_BRANCH }}" == "master" ]; then
-            TAG=${{ secrets.DOCKERHUB_USERNAME }}/plane-space:latest
-          else
-            TAG=${{ env.SPACE_TAG }}
-          fi
+          TAG=${{ secrets.DOCKERHUB_USERNAME }}/plane-space:latest
           echo "SPACE_TAG=${TAG}" >> $GITHUB_ENV
 
       - name: Login to Docker Hub
@@ -178,7 +157,6 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
 
   branch_build_push_backend:
-    if: ${{ needs.branch_build_setup.outputs.build_backend == 'true' || github.event_name == 'workflow_dispatch' || github.event_name == 'release' || needs.branch_build_setup.outputs.gh_branch_name == 'master' }}
     runs-on: ubuntu-20.04
     needs: [branch_build_setup]
     env:
@@ -191,13 +169,7 @@ jobs:
     steps:
       - name: Set Backend Docker Tag
         run: |
-          if [ "${{ github.event_name }}" == "release" ]; then
-            TAG=${{ secrets.DOCKERHUB_USERNAME }}/plane-backend:stable,${{ secrets.DOCKERHUB_USERNAME }}/plane-backend:${{ github.event.release.tag_name }}
-          elif [ "${{ env.TARGET_BRANCH }}" == "master" ]; then
-            TAG=${{ secrets.DOCKERHUB_USERNAME }}/plane-backend:latest
-          else
-            TAG=${{ env.BACKEND_TAG }}
-          fi
+          TAG=${{ secrets.DOCKERHUB_USERNAME }}/plane-backend:latest
           echo "BACKEND_TAG=${TAG}" >> $GITHUB_ENV
 
       - name: Login to Docker Hub
@@ -230,7 +202,6 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
 
   branch_build_push_proxy:
-    if: ${{ needs.branch_build_setup.outputs.build_proxy == 'true' || github.event_name == 'workflow_dispatch' || github.event_name == 'release' || needs.branch_build_setup.outputs.gh_branch_name == 'master' }}
     runs-on: ubuntu-20.04
     needs: [branch_build_setup]
     env:
@@ -243,13 +214,8 @@ jobs:
     steps:
       - name: Set Proxy Docker Tag
         run: |
-          if [ "${{ github.event_name }}" == "release" ]; then
-            TAG=${{ secrets.DOCKERHUB_USERNAME }}/plane-proxy:stable,${{ secrets.DOCKERHUB_USERNAME }}/plane-proxy:${{ github.event.release.tag_name }}
-          elif [ "${{ env.TARGET_BRANCH }}" == "master" ]; then
-            TAG=${{ secrets.DOCKERHUB_USERNAME }}/plane-proxy:latest
-          else
-            TAG=${{ env.PROXY_TAG }}
-          fi
+       
+          TAG=${{ secrets.DOCKERHUB_USERNAME }}/plane-proxy:latest
           echo "PROXY_TAG=${TAG}" >> $GITHUB_ENV
 
       - name: Login to Docker Hub
